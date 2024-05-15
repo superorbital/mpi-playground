@@ -1,0 +1,49 @@
+apiVersion: kubeflow.org/v2beta1
+kind: MPIJob
+metadata:
+  name: mpi-ping-pong
+spec:
+  slotsPerWorker: 1
+  sshAuthMountPath: /app/.ssh
+  runPolicy:
+    cleanPodPolicy: Running
+    ttlSecondsAfterFinished: 60
+  mpiReplicaSpecs:
+    Launcher:
+      replicas: 1
+      template:
+        spec:
+          containers:
+          - image: superorbital/mpi-ping-pong:latest
+            name: mpi-launcher
+            securityContext:
+              runAsUser: 5000
+            command:
+            - mpirun
+            args:
+            - -n
+            - "3"
+            - /app/mpi-ping-pong.py
+            resources:
+              limits:
+                cpu: 1
+                memory: 1Gi
+    Worker:
+      replicas: 3
+      template:
+        spec:
+          containers:
+          - image: superorbital/mpi-ping-pong:latest
+            name: mpi-worker
+            securityContext:
+              runAsUser: 5000
+            command:
+            - /usr/sbin/sshd
+            args:
+            - -De
+            - -f
+            - /app/.sshd_config
+            resources:
+              limits:
+                cpu: 1
+                memory: 1Gi

@@ -1,0 +1,4 @@
+PidFile /app/sshd.pid
+HostKey /app/.ssh/id_rsa
+StrictModes no
+Port 2222
