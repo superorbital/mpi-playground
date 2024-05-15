@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+if [[ "${#}" -ne 1 ]]; then
+  echo "[ERROR] This script expects exactly one argument."
+  exit 1
+fi
+
+if [[ "${1}" == "list-container-dirs" ]]; then
+  readarray -t dirArray < <(find "$(git rev-parse --show-toplevel)/containers/" -maxdepth 1 -mindepth 1 -type d | xargs -I{} basename {})
+  jq --compact-output --null-input '$ARGS.positional' --args -- "${dirArray[@]}"
+  exit 0
+fi
+
+echo "[ERROR] You passed in an argument that is unrecognized by this script."
+exit 1

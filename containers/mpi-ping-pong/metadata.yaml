@@ -1,0 +1,4 @@
+image:
+  name: mpi-ping-pong
+  description: This image is designed to run a simple MPI message passing test.
+  visibility: public
