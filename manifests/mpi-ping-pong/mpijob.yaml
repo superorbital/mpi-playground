@@ -7,7 +7,7 @@ spec:
   sshAuthMountPath: /app/.ssh
   runPolicy:
     cleanPodPolicy: Running
-    ttlSecondsAfterFinished: 60
+    ttlSecondsAfterFinished: 120
   mpiReplicaSpecs:
     Launcher:
       replicas: 1
