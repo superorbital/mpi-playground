@@ -21,7 +21,7 @@ spec:
             command:
             - mpirun
             args:
-            - -n
+            - -np
             - "3"
             - /app/mpi-ping-pong.py
             resources:
